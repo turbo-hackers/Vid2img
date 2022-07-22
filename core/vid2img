@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # coded by TURB0
+# github https://github.com/turbo-hackers
 
 # colors
 r ='\033[1;91m' # red
