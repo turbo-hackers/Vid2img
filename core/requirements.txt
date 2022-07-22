@@ -1,0 +1,4 @@
+opencv-contrib-python==4.6.0.66
+opencv-python==4.6.0.66
+numpy==1.21.5
+rich==12.4.4
