@@ -12,22 +12,22 @@ reset = '\033[0m' # reset color
 
 # requred module checking
 def required():
-    import os
-    banner()
-    if not os.path.exists("core/required_installed!"):
-        try:
-            print(y+"\nChecking the required Modules are installed...\n"+reset)
-            import cv2,os,time
-            import numpy as np
-            from datetime import timedelta
-            print(g+"Required Modules are installed !"+reset)
-            with open("core/required_installed!","w") as required:
-                required.write("required packages are installed !")
-        except :
-                print(r+"Error : required modules are not installed !\n"+reset)
-                print(y+"\n # Install required modules run : \n"+reset)
-                print(y+"\t make install"+reset)
-                exit()
+	import os
+	banner()
+	if not os.path.exists("core/required_installed!"):
+		try:
+			print(y+"\nChecking the required Modules are installed...\n"+reset)
+			import cv2,os,time
+			import numpy as np
+			from datetime import timedelta
+			print(g+"Required Modules are installed !"+reset)
+			with open("core/required_installed!","w") as required:
+				required.write("required packages are installed !")
+		except :
+				print(r+"Error : required modules are not installed !\n"+reset)
+				print(y+"\n # Install required modules run : \n"+reset)
+				print(y+"\t make install"+reset)
+				exit()
 
 # importing modules
 import cv2,os,time
@@ -60,119 +60,126 @@ def banner():
 	 █    █   █  █  ▀█   █   █    █  █ ▌ ▌█ █
 	  █  █    █  █   █   ▄▄▄▄█    █  █  ▀ █ █  ▀█
 	   ██    ███ ████▀   █▄▄▄▄   ███ ██  ██ █████
-	     """+p+"""v1.0"""+reset)
+		 """+p+"""v1.0"""+reset)
 	print(y+"            <========[[ "+b+"coded by "+blink+"TURB0"+reset+y+" ]]========>\n"+reset)
 	print(y+"         <--------( "+r+"Github : turbo-hackers"+y+" )-------->"+reset)
 # help
 def Help():
-    banner()
-    print("\n")
-    print(y+"                        [ HELP MENU ]"+reset)
-    print("\nVID2IMG is simple tool to extract frames from a video using python.")
-    print("modules used : opencv-python , numpy, rich")
-    print("\nHelp Menu :")
-    print(y+"\tpython3 vid2img -h"+reset)
-    print("\nUsage :")
-    print(y+"\tpython3 vid2img [videofile]"+reset)
-    print("\nFrame Setting :")
-    print("\ndefault frame per second(fps) = 10")
-    print("if video of duration 30 seconds, saves 10 frame per second = 300 frames")
-    print("set 5 to get 150 frames of 30s video")
+	banner()
+	print("\n")
+	print(y+"                        [ HELP MENU ]"+reset)
+	print("\nVID2IMG is simple tool to extract frames from a video using python.")
+	print("modules used : opencv-python , numpy, rich")
+	print("\nHelp Menu :")
+	print(y+"\tpython3 vid2img -h"+reset)
+	print("\nUsage :")
+	print(y+"\tpython3 vid2img [videofile]"+reset)
+	print("\nFrame Setting :")
+	print("\ndefault frame per second(fps) = 10")
+	print("if video of duration 30 seconds, saves 10 frame per second = 300 frames")
+	print("set 5 to get 150 frames of 30s video")
 # i.e if video of duration 30 seconds, saves 10 frame per second = 300 frames saved in total
 # 0.5 for 1 frame per 2 seconds
 
 def format_timedelta(td):
-    result = str(td)
-    try:
-        result, ms = result.split(".")
-    except ValueError:
-        return result + ".00".replace(":", "-")
-    ms = int(ms)
-    ms = round(ms / 1e4)
-    return f"{result}.{ms:02}".replace(":", "-")
+	result = str(td)
+	try:
+		result, ms = result.split(".")
+	except ValueError:
+		return result + ".00".replace(":", "-")
+	ms = int(ms)
+	ms = round(ms / 1e4)
+	return f"{result}.{ms:02}".replace(":", "-")
 
 
 def get_saving_frames_durations(cap, saving_fps):
-    """A function that returns the list of durations where to save the frames"""
-    s = []
-    # get the clip duration by dividing number of frames by the number of frames per second
-    clip_duration = cap.get(cv2.CAP_PROP_FRAME_COUNT) / cap.get(cv2.CAP_PROP_FPS)
-    # use np.arange() to make floating-point steps
-    for i in np.arange(0, clip_duration, 1 / saving_fps):
-        s.append(i)
-    return s
+	"""A function that returns the list of durations where to save the frames"""
+	s = []
+	# get the clip duration by dividing number of frames by the number of frames per second
+	clip_duration = cap.get(cv2.CAP_PROP_FRAME_COUNT) / cap.get(cv2.CAP_PROP_FPS)
+	# use np.arange() to make floating-point steps
+	for i in np.arange(0, clip_duration, 1 / saving_fps):
+		s.append(i)
+	return s
 
 # main2
 
 def main2(video_file,SAVING_FRAMES_PER_SECOND):
-    filename, _ = os.path.splitext(video_file)
-    filename += "-vid2img"
-    # make a folder by the name of the video file
-    if not os.path.isdir(filename):
-        os.mkdir(filename)
-    # read the video file
-    cap = cv2.VideoCapture(video_file)
-    # get the FPS of the video
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    # if the SAVING_FRAMES_PER_SECOND is above video FPS, then set it to FPS (as maximum)
-    saving_frames_per_second = min(fps, SAVING_FRAMES_PER_SECOND)
-    # get the list of duration spots to save
-    saving_frames_durations = get_saving_frames_durations(cap, saving_frames_per_second)
-    # start the loop
-    count = 0
-    while True:
-        is_read, frame = cap.read()
-        if not is_read:
-            # break out of the loop if there are no frames to read
-            break
-        # get the duration by dividing the frame count by the FPS
-        frame_duration = count / fps
-        try:
-            # get the earliest duration to save
-            closest_duration = saving_frames_durations[0]
-        except IndexError:
-            # the list is empty, all duration frames were saved
-            break
-        if frame_duration >= closest_duration:
-            # if closest duration is less than or equals /the frame duration,
-            # then save the frame
-            frame_duration_formatted = format_timedelta(timedelta(seconds=frame_duration))
-            cv2.imwrite(os.path.join(filename, f"frame{frame_duration_formatted}.jpg"), frame)
-            # drop the duration spot from the list, since this duration spot is already saved
-            try:
-                saving_frames_durations.pop(0)
-            except IndexError:
-                pass
-        # increment the frame count
-        count += 1
-    print(y+"\n            "+g+"###"+y+" Frames Extraction is completed! "+g+"###"+reset)
-    print(y+"\n            "+g+"###"+y+" Folder name = "+filename+g+" ###"+reset)
+	if not os.path.isdir("extracted"):
+		os.mkdir("extracted")
+	# make extracted folder
+	extracted_folder = os.path.split(os.path.realpath("vid2img"))[0] + "/extracted/"
+	# real path to extracted folder
+	filename , _ = os.path.splitext(os.path.split(video_file)[1])
+	filename += "-vid2img"
+	output_folder = extracted_folder + filename
+
+	if not os.path.isdir(output_folder):
+		os.mkdir(output_folder)
+	# make a folder by the name of the video file
+	# read the video file
+	cap = cv2.VideoCapture(video_file)
+	# get the FPS of the video
+	fps = cap.get(cv2.CAP_PROP_FPS)
+	# if the SAVING_FRAMES_PER_SECOND is above video FPS, then set it to FPS (as maximum)
+	saving_frames_per_second = min(fps, SAVING_FRAMES_PER_SECOND)
+	# get the list of duration spots to save
+	saving_frames_durations = get_saving_frames_durations(cap, saving_frames_per_second)
+	# start the loop
+	count = 0
+	while True:
+		is_read, frame = cap.read()
+		if not is_read:
+			# break out of the loop if there are no frames to read
+			break
+		# get the duration by dividing the frame count by the FPS
+		frame_duration = count / fps
+		try:
+			# get the earliest duration to save
+			closest_duration = saving_frames_durations[0]
+		except IndexError:
+			# the list is empty, all duration frames were saved
+			break
+		if frame_duration >= closest_duration:
+			# if closest duration is less than or equals /the frame duration,
+			# then save the frame
+			frame_duration_formatted = format_timedelta(timedelta(seconds=frame_duration))
+			cv2.imwrite(os.path.join(output_folder, f"frame{frame_duration_formatted}.jpg"), frame)
+			# drop the duration spot from the list, since this duration spot is already saved
+			try:
+				saving_frames_durations.pop(0)
+			except IndexError:
+				pass
+		# increment the frame count
+		count += 1
+	print(y+"\n            "+g+"###"+y+" Frames Extraction Is Completed! "+g+"###"+reset)
+	print(y+"\n            "+g+"###"+y+" Frames Saved In The extracted Folder"+g+" ###"+reset)
 
 # Main function
 def main():
-    if __name__ == "__main__":
-        import sys
-        help = ["help", "--help","-help", "--h", "-h"]
-        if sys.argv[1] == help[0] or sys.argv[1] == help[1] or sys.argv[1] == help[2] or sys.argv[1] == help[3] or sys.argv[1] == help[4]:
-            Help()
-            exit()
-        video_file = sys.argv[1]
-        if not os.path.exists(video_file):
-            print(r+"\n\tError : Wrong Command !"+reset)
-            print(y+"\n\tpython3 vid2img -h for Help Menu"+reset)
-            exit()
-        from rich.console import Console
-        console = Console()
-        required()
-        banner()
-        print("\n")
-        print(y+"Frame setting shown on help Menu ( python3 vid2img -h )\n"+reset)
-        SAVING_FRAMES_PER_SECOND = float(input(p+"Enter Frame per Second (default is 10) : "+reset))
-        if SAVING_FRAMES_PER_SECOND == "":
-            SAVING_FRAMES_PER_SECOND = 10
-        else:
-            float(SAVING_FRAMES_PER_SECOND)
-        print("\n")
-        with console.status(g+"Extracting Frame From The Video"+reset) as status:
-            main2(video_file,SAVING_FRAMES_PER_SECOND)
+	if __name__ == "__main__":
+		import sys
+		help = ["help", "--help","-help", "--h", "-h"]
+		if sys.argv[1] == help[0] or sys.argv[1] == help[1] or sys.argv[1] == help[2] or sys.argv[1] == help[3] or sys.argv[1] == help[4]:
+			Help()
+			exit()
+		video_file = sys.argv[1]
+		if not os.path.exists(video_file):
+			print(r+"\n\tError : Wrong Command !"+reset)
+			print(y+"\n\tpython3 vid2img -h for Help Menu"+reset)
+			exit()
+		from rich.console import Console
+		console = Console()
+		required()
+		banner()
+		print("\n")
+		print(y+"Frame setting shown on help Menu ( python3 vid2img -h )\n"+reset)
+		SAVING_FRAMES_PER_SECOND = input(p+"Enter Frame per Second (default is 10) : "+reset)
+		if SAVING_FRAMES_PER_SECOND == "" or SAVING_FRAMES_PER_SECOND == " ":
+			SAVING_FRAMES_PER_SECOND = 10
+		else:
+			float(SAVING_FRAMES_PER_SECOND)
+		print("\n")
+		with console.status(g+"Extracting Frame From The Video"+reset) as status:
+			main2(video_file,SAVING_FRAMES_PER_SECOND)
 main()
