@@ -47,8 +47,9 @@ vid2img tool is an python based script which can extract all frame from a given 
 * `ls`
 * `cd Vid2img`
 * `ls`
-* `make install`
+* `make termux-install`
 * `python3 vid2img  -h`
+
 ```
 [+]--Note:- Don't delete any of the scripts included in core files
 ```
