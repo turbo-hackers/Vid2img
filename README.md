@@ -3,7 +3,7 @@
 vid2img tool is an python based script which can extract all frame from a given video. This tool works on any devices with python installed.
 
 ## [Screenshot] :
-![alt text](https://raw.githubusercontent.com/turbo-hackers/Vid2img/main/screenshot_Vid2img.png)
+![alt text](https://raw.githubusercontent.com/turbo-hackers/Vid2img/main/core/screenshot_Vid2img.png)
 <h2>Installation and Usage (python 3)</h2>
 
 ## [Kali-Linux] :
