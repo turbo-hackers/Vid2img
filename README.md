@@ -8,23 +8,29 @@ vid2img tool is an python based script which can extract all frame from a given 
 
 ## [Kali-Linux] :
 
-* `sudo apt-get update -y && sudo apt-get upgrade -y`
-* `sudo apt install python3 -y`
-* `sudo apt install git -y`
-* `git clone https://github.com/turbo-hackers/Vid2img.git`
-* `cd Vid2img`
-* `make install`
-* `python3 vid2img -h`
+```
+sudo apt-get update -y && sudo apt-get upgrade -y
+sudo apt install git python3 -y
+git clone https://github.com/turbo-hackers/Vid2img.git
+```
+```
+cd Vid2img
+make install
+python3 vid2img -h
+```
 
 ## [Termux] :
 
-* `apt-get update -y && apt-get upgrade -y`
-* `pkg install python3 -y`
-* `pkg install git -y`
-* `git clone https://github.com/turbo-hackers/Vid2img.git`
-* `cd Vid2img`
-* `make termux-install`
-* `python3 vid2img  -h`
+```
+apt-get update -y && apt-get upgrade -y
+pkg install git python3 -y
+git clone https://github.com/turbo-hackers/Vid2img.git
+```
+```
+cd Vid2img
+make termux-install
+python3 vid2img  -h
+```
 
 ## USEAGE :
 
