@@ -182,4 +182,11 @@ def main():
 		print("\n")
 		with console.status(g+"Extracting Frame From The Video"+reset) as status:
 			main2(video_file,SAVING_FRAMES_PER_SECOND)
-main()
+
+
+try:
+	main()
+except:
+	print(y+"\n["+r+"Error"+y+"]"+b+" Something went wrong! Please try again after some time."+reset)
+	error_msg = input(b+"Press any key to Close the program ... "+reset)
+	exit(0)
